@@ -1,0 +1,11 @@
+[Unit]
+Description=KNX-Velux Gateway
+After=network-online.target
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/home/pi/cli
+ExecStart=/usr/local/bin/node /home/pi/cli/main.js
+
+[Install]
+WantedBy=multi-user.target

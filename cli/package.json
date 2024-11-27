@@ -2,11 +2,23 @@
   "name": "knx-velux-cli",
   "version": "0.0.1",
   "description": "KNX Velux Gateway command line version",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "ts-node src/main.ts"
+  },
   "author": "Moritz Mair",
   "license": "MIT",
   "dependencies": {
-    "klf-200-api": "^3.0.0",
-    "knx": "^2.3.6"
+    "js-yaml": "^4.1.0",
+    "knx": "^2.5.2",
+    "klf-200-api": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2"
   }
 }

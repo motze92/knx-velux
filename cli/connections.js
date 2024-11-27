@@ -45,19 +45,27 @@ module.exports = {
   },
 
   async generateCertificate() {
-    this.generateCertificate = true
-    execSync("echo -n | openssl s_client -connect " + settings.settings.velux_address + ":51200 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > velux-cert.pem");
-    if(fs.statSync('./velux-cert.pem').size) {
-      let fingerprint = execSync("openssl x509 -noout -fingerprint -sha1 -inform pem -in velux-cert.pem")
-      console.log(fingerprint.toString().split("=")[1].trim())
-      settings.settings.velux_fingerprint = fingerprint.toString().split("=")[1].trim()
-      settings.save()
-      this.generatingCertificate = false
-      return
-    } else {
-      console.log('Error while generating certificate!')
-      throw new Error('Error while generating certificate!')
+    this.generatingCertificate = true;
+    try {
+      // Use the full path to the OpenSSL executable
+      const opensslPath = `"C:\\Program Files\\Git\\usr\\bin\\openssl.exe"`;
+      execSync(`${opensslPath} s_client -connect ${settings.settings.velux_address}:51200 -showcerts < nul | findstr /v "DONE" > velux-cert.pem`);
+      
+      if(fs.statSync('./velux-cert.pem').size) {
+        let fingerprint = execSync(`${opensslPath} x509 -noout -fingerprint -sha1 -inform pem -in velux-cert.pem`);
+        console.log(fingerprint.toString().split("=")[1].trim());
+        settings.settings.velux_fingerprint = fingerprint.toString().split("=")[1].trim();
+        settings.save();
+        this.generatingCertificate = false;
+        return;
+      }
+    } catch (error) {
+      console.error('Error executing OpenSSL command:', error);
+      throw new Error('Error while generating certificate!');
     }
+    
+    console.log('Error while generating certificate!');
+    throw new Error('Error while generating certificate!');
   },
 
   deleteCertificate() {

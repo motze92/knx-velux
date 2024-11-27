@@ -1,21 +1,21 @@
-const config = require('./config');
-const velux = require('./velux');
-const knx = require('knx');
-const Device = require('./device');
+import config from './config';
+import velux from './velux';
+import { Connection as KnxConnection } from 'knx';
+import Device from './device';
 
-async function main() {
+async function main(): Promise<void> {
     try {
         // Load config
         config.load();
 
         // Connect to KNX
         console.log('Connecting to KNX...');
-        const knxConnection = new knx.Connection({
+        const knxConnection = new KnxConnection({
             ipAddr: config.knxConfig.address,
             ipPort: config.knxConfig.port,
             handlers: {
                 connected: () => console.log('Connected to KNX'),
-                error: (err) => console.error('KNX connection error:', err)
+                error: (err: Error) => console.error('KNX connection error:', err)
             }
         });
 
@@ -42,4 +42,4 @@ async function main() {
     }
 }
 
-main();
+main(); 

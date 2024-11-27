@@ -1,0 +1,18 @@
+velux:
+  address: "192.168.0.112"
+  password: "a3gUeKQ2eG"
+
+knx:
+  address: "192.168.0.111"
+  port: 3671
+
+devices:
+  - name: "Archiv Links"
+    velux_name: "archiv_links"
+    knx:
+      up_down_long: "1/1/140"
+      up_down_short: "1/1/141"
+      position_height: "1/1/142"
+      position_height_state: "1/1/146"
+      position_slat: "1/1/143"
+      position_slat_state: "1/1/147" 
